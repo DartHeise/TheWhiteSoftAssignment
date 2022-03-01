@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Net;
 
 namespace TheWhiteSoftAssignment
 {
@@ -7,49 +6,55 @@ namespace TheWhiteSoftAssignment
     {
         /* ИНСТРУКЦИЯ ДЛЯ ЗАПУСКА
          * В переменную jsonReplacement передается путь к файлу replacement.json
-         * В переменную responce передается указанный URL
-         * Закомментирована возможность передать в responce путь к файлу data.json
-         * Программа запускается и создает файл result.json в указанном пути
+         * В переменную responce передается указанный URI
+         * Дополнительно закомментирована возможность передать в responce путь к файлу data.json
+         * При запуске программы создается файл result.json в указанном пути
          */
         static void Main()
         {
             var jsonReplacement = File.ReadAllText("replacement.json");
-            var replaceList = JsonSerializer.Deserialize<List<SourceReplacement>>(jsonReplacement);
+            var replacementList = JsonSerializer.Deserialize<List<SourceReplacement>>(jsonReplacement);
             var replacementDictionary = new Dictionary<string, string>();
-
-            replaceList.Sort(); // Сортируем список 
-            foreach (SourceReplacement el in replaceList)
+            if (replacementList != null)
             {
-                if (!replacementDictionary.ContainsKey(el.replacement)) // Если ключ отсутствует в словаре:
+                replacementList.Sort(); // Сортируем список 
+                foreach (var element in replacementList)
                 {
-                    replacementDictionary.Add(el.replacement, el.source); // добавляем ключ и его значение
-                }
-                else
-                {
-                    replacementDictionary[el.replacement] = el.source; // иначе заменяем значение ключа
+                    if (!replacementDictionary.ContainsKey(element.Replacement)) // Если ключ отсутствует в словаре:
+                    {
+                        replacementDictionary.Add(element.Replacement, element.Source); // добавляем ключ и его значение
+                    }
+                    else
+                    {
+                        replacementDictionary[element.Replacement] = element.Source; // иначе заменяем значение ключа
+                    }
                 }
             }
 
-            var webClient = new WebClient();
-           // var responce = File.ReadAllText("data.json");
-            var responce = webClient.DownloadString
-            ("https://raw.githubusercontent.com/thewhitesoft/student-2022-assignment/main/data.json");
-            var jsonData = JsonSerializer.Deserialize<string[]>(responce);
+            //var responce = File.ReadAllText("data.json");
+            var responce = GetHttpMessage("https://raw.githubusercontent.com/thewhitesoft/student-2022-assignment/main/data.json");
+            var jsonData = JsonSerializer.Deserialize<string[]>(responce.Result);
             var result = new List<string>();
-
-            for (int i = 0; i < jsonData.Length; i++)
+            if (jsonData != null)
             {
-                foreach (var values in replacementDictionary)
+                for (int i = 0; i < jsonData.Length; i++)
                 {
-                    jsonData[i] = jsonData[i].Replace(values.Key, values.Value); // Исправляем в строке измененные сообщения
+                    foreach (var element in replacementDictionary)
+                    {
+                        if (element.Key != element.Value)
+                            jsonData[i] = jsonData[i].Replace(element.Key, element.Value); // Исправляем в строке измененные сообщения
+                    }
+                    if (!string.IsNullOrEmpty(jsonData[i]))
+                        result.Add(jsonData[i]); // Добавляем исправленную строку в список
                 }
-                if (!string.IsNullOrEmpty(jsonData[i]))
-                    result.Add(jsonData[i]); // Добавляем исправленную строку в список
             }
 
-            var jsonResult = JsonSerializer.Serialize
-            (result.ToArray(), new JsonSerializerOptions { WriteIndented = true });
+            var jsonResult = JsonSerializer.Serialize(result.ToArray(), new JsonSerializerOptions { WriteIndented = true });
             File.WriteAllText("result.json", jsonResult); // Записываем результат в result.json
+        }
+        static async Task<string> GetHttpMessage(string? requestUri)
+        {
+            return await new HttpClient().GetStringAsync(requestUri);
         }
     }
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Иван\\Desktop\\Курсовые\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj": {}
+    "C:\\Users\\Иван\\source\\repos\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Иван\\Desktop\\Курсовые\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj": {
+    "C:\\Users\\Иван\\source\\repos\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Иван\\Desktop\\Курсовые\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj",
+        "projectUniqueName": "C:\\Users\\Иван\\source\\repos\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj",
         "projectName": "TheWhiteSoftAssignment",
-        "projectPath": "C:\\Users\\Иван\\Desktop\\Курсовые\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj",
+        "projectPath": "C:\\Users\\Иван\\source\\repos\\TheWhiteSoftAssignment\\TheWhiteSoftAssignment.csproj",
         "packagesPath": "C:\\Users\\Иван\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Иван\\Desktop\\Курсовые\\TheWhiteSoftAssignment\\obj\\",
+        "outputPath": "C:\\Users\\Иван\\source\\repos\\TheWhiteSoftAssignment\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Иван\\AppData\\Roaming\\NuGet\\NuGet.Config",
